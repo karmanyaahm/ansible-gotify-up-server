@@ -1,0 +1,27 @@
+- name: Add the user 'gotify' with a specific uid
+  ansible.builtin.user:
+    name: gotify
+    uid: 1040
+    shell: /usr/bin/nologin
+    password: "*"
+
+- apt: 
+    update_cache: yes
+    name: python3-psycopg2
+    state: present
+
+- import_role:
+    name: geerlingguy.postgresql
+  vars:
+    postgresql_python_library: python3-psycopg2
+    postgresql_databases:
+      - name: gotify
+    postgresql_users:
+      - name: gotify
+    postgresql_hba_entries:
+     - {type: local, database: all, user: all, auth_method: peer}
+    postgresql_global_config_options:
+     - option: listen_addresses
+       value: ""
+
+- import_tasks: gotify.yml

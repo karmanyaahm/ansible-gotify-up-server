@@ -1,0 +1,43 @@
+- name: install unzip
+  apt:
+    name: unzip
+    state: present
+- name: fetch binary
+  unarchive:
+    src: "{{GOTIFY_URL}}"
+    dest: "/usr/local/bin/"
+    remote_src: yes
+  notify:
+    - restart gotify
+- name: move bin
+  shell: |
+    mv /usr/local/bin/{{GOTIFY_BIN_NAME}} /usr/local/bin/gotify
+- name: perms
+  file:
+    path: "/usr/local/bin/gotify"
+    state: file
+    mode: '0755'
+- name: gotify
+  file:
+    path: "/etc/gotify"
+    state: directory
+    mode: '0755'
+- name: Add cap_net_bind_service to gotify
+  community.general.capabilities:
+    path: "/usr/local/bin/gotify"
+    capability: cap_net_bind_service+eip
+    state: present
+- name: copy config file
+  template:
+    src: config.yml.j2
+    dest: "/etc/gotify/config.yml"
+  notify:
+    - restart gotify
+- name: install service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/gotify.service
+  notify:
+    - systemd reload
+
+

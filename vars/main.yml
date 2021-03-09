@@ -1,0 +1,3 @@
+GOTIFY_BIN_NAME: "gotify-linux-amd64"
+GOTIFY_URL: "https://cloudflare-ipfs.com/ipfs/QmRYvmhdWsa5eit2n1cKFTZeArbizLnHNAS8aFq1ychoKu?filename={{GOTIFY_BIN_NAME}}.zip"
+ADMIN_PASS: admin # change!!

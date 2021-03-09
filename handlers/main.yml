@@ -1,0 +1,7 @@
+
+- name: systemd reload
+  systemd:
+    daemon_reload: true
+
+- name: restart gotify
+  service: name=gotify state=restarted enabled=yes
