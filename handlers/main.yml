@@ -5,3 +5,5 @@
 
 - name: restart gotify
   service: name=gotify state=restarted enabled=yes
+- name: restart fail2ban
+  service: name=fail2ban state=restarted enabled=yes

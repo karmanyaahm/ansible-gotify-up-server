@@ -4,16 +4,16 @@
     uid: 1040
     shell: /usr/bin/nologin
     password: "*"
+- apt:
+   update_cache: yes
+   upgrade: yes
 
 - apt: 
-    update_cache: yes
     name:
       - python3-psycopg2
       - fail2ban
     state: present
-    upgrade: yes
 
-- import_tasks: backup.yml
 
 - import_role:
     name: geerlingguy.postgresql
@@ -30,6 +30,7 @@
        value: ""
 
 - import_tasks: gotify.yml
+- import_tasks: backup.yml
 
 - name: copy fail2ban filter
   copy:
@@ -38,6 +39,8 @@
     owner: root
     group: root
     mode: '0644'
+  notify:
+    - restart fail2ban
 - name: copy fail2ban conf
   copy:
     src: jail.local
@@ -45,5 +48,8 @@
     owner: root
     group: root
     mode: '0644'
+  notify:
+    - restart fail2ban
+
 
 
