@@ -7,8 +7,13 @@
 
 - apt: 
     update_cache: yes
-    name: python3-psycopg2
+    name:
+      - python3-psycopg2
+      - fail2ban
     state: present
+    upgrade: yes
+
+- import_tasks: backup.yml
 
 - import_role:
     name: geerlingguy.postgresql
@@ -25,3 +30,20 @@
        value: ""
 
 - import_tasks: gotify.yml
+
+- name: copy fail2ban filter
+  copy:
+    src: gotify.conf
+    dest: /etc/fail2ban/filter.d/
+    owner: root
+    group: root
+    mode: '0644'
+- name: copy fail2ban conf
+  copy:
+    src: jail.local
+    dest: /etc/fail2ban/
+    owner: root
+    group: root
+    mode: '0644'
+
+

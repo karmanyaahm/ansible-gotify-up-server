@@ -1,0 +1,10 @@
+- hosts: gotify1.malhotra.cc
+  become: yes
+  roles:
+    - "../."
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    GOTIFY_DOMAINS:
+      - gotify1.malhotra.cc
+    GOTIFY_TLS: true
+

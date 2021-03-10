@@ -1,0 +1,24 @@
+- name: copy backup stuff1
+  copy:
+    src: backup.sh
+    dest: /etc/postgresql/backup.sh
+    owner: postgres
+    group: postgres
+    mode: '0744'
+- name: copy backup stuff2
+  copy:
+    src: backup.config
+    dest: /etc/postgresql/pg_backup.config
+    owner: root
+    group: root
+    mode: '0644'
+- name: add backup cron job
+  cron:
+    name: "pg backup"
+    minute: "0"
+    hour: "23"
+    job: "/etc/postgresql/backup.sh"
+    user: postgres
+
+
+

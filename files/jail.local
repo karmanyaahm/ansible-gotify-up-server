@@ -1,0 +1,6 @@
+[gotify]
+port = http,https
+backend = systemd
+bantime = 10m
+maxretry = 10
+enabled = true
